@@ -16,18 +16,56 @@
     <!--montserrat font-->
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
     <!--my css-->
-    <link rel="stylesheet" href="./style.css">
-    <script>
-        function consoleLOGGER() {
-            
-        }
-    </script>
+    <link rel="stylesheet" href="./css/style.css">
+    <!--my javascript-->
+    <script type="text/javascript" src="./js/app.js"></script>
 </head>
+
 <body>
-    <div class="container">
+    <div class="container" id="mainContainer">
         <div class="row">
             <div class="col">
-                <button type="button" class="btn btn-secondary">Start Game</button>
+            </div>
+            <div class="col">
+                <h1>UNO GAME</h1>
+            </div>
+            <div class="col"></div>
+        </div>
+        <div class="row" id="game">
+            <div class="col" id="playerOne">
+                Cards of player #1
+                <table class="table">
+                    <tbody style="border: 1px;">
+                        <tr>
+                            <td style="cursor: pointer;">7R</td>
+                            <td>2B</td>
+                            <td>9R</td>
+                            <td>1Y</td>
+                            <td>0Y</td>
+                            <td>REV</td>
+                            <td>5R</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col" id="centerDiv">
+                <button type="button" class="btn btn-secondary" onclick="startRound()">Start Game</button>
+            </div>
+            <div class="col" id="playerTwo">
+                Cards of player #2
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td onclick="changeColor(this)">+2</td>
+                            <td onclick="changeColor(this)">4B</td>
+                            <td onclick="changeColor(this)">0B</td>
+                            <td onclick="changeColor(this)">4B</td>
+                            <td onclick="changeColor(this)">1Y</td>
+                            <td onclick="changeColor(this)">4R</td>
+                            <td onclick="changeColor(this)">2R</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

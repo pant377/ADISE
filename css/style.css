@@ -1,0 +1,11 @@
+* {
+    font-family: 'Montserrat', sans-serif !important;
+}
+#mainContainer {
+    margin: 250px; 
+    text-align: center;
+}
+.table td {
+    cursor: pointer;
+    background-color: yellow;
+}
