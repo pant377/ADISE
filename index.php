@@ -37,13 +37,7 @@
                 <table class="table">
                     <tbody style="border: 1px;">
                         <tr>
-                            <td style="cursor: pointer;">7R</td>
-                            <td>2B</td>
-                            <td>9R</td>
-                            <td>1Y</td>
-                            <td>0Y</td>
-                            <td>REV</td>
-                            <td>5R</td>
+                            <?php include './php/giveCards.php'?>
                         </tr>
                     </tbody>
                 </table>
@@ -56,13 +50,7 @@
                 <table class="table">
                     <tbody>
                         <tr>
-                            <td onclick="changeColor(this)">+2</td>
-                            <td onclick="changeColor(this)">4B</td>
-                            <td onclick="changeColor(this)">0B</td>
-                            <td onclick="changeColor(this)">4B</td>
-                            <td onclick="changeColor(this)">1Y</td>
-                            <td onclick="changeColor(this)">4R</td>
-                            <td onclick="changeColor(this)">2R</td>
+                            <?php include './php/giveCards.php'?>
                         </tr>
                     </tbody>
                 </table>
