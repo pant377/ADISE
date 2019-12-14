@@ -18,7 +18,7 @@
     <!--my css-->
     <link rel="stylesheet" href="./css/style.css">
     <!--my javascript-->
-    <script type="text/javascript" src="./js/app.js"></script>
+    <script type="text/javascript" src="./js/uno.js"></script>
 </head>
 
 <body>
@@ -34,23 +34,25 @@
         <div class="row" id="game">
             <div class="col" id="playerOne">
                 Cards of player #1
-                <table class="table">
+                <br>
+                <table class="table" id="player1hand">
                     <tbody style="border: 1px;">
                         <tr>
-                            <?php include './php/giveCards.php'?>
+                            no cards
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div class="col" id="centerDiv">
-                <button type="button" class="btn btn-secondary" onclick="startRound()">Start Game</button>
+                <button type="button" class="btn btn-secondary" id="startGameButton" >Start Game</button>
             </div>
             <div class="col" id="playerTwo">
                 Cards of player #2
-                <table class="table">
+                <br>
+                <table class="table" id="player2hand">
                     <tbody>
                         <tr>
-                            <?php include './php/giveCards.php'?>
+                            no cards
                         </tr>
                     </tbody>
                 </table>
