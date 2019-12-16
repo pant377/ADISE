@@ -1,4 +1,5 @@
-<?php require_once "lib/dbconnect.php";
+<?php 
+require_once "lib/dbconnect.php";
 require_once "lib/board.php";
 require_once "lib/game.php";
 $method=$_SERVER['REQUEST_METHOD'];
@@ -34,7 +35,7 @@ switch ($r=array_shift($request)) {
 }
 
 function handle_game($method) {
-
+        
         if($method=='GET') {
                 show_game();
         }
@@ -42,6 +43,5 @@ function handle_game($method) {
         else if ($method=='POST') {
                 reset_game();
         }
-
 }
 ?>
