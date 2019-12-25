@@ -1,9 +1,6 @@
 <?php
-    $mysqli = mysqli_connect("localhost", "root", "", "uno");
-	$sql = 'SELECT * FROM carddeck ORDER BY RAND()';
+	$mysqli = mysqli_connect("localhost", "root", "", "uno");	
+	$sql = 'INSERT INTO hand (playerId, cardId) VALUES (1, 3)';
 	$st = $mysqli->prepare($sql);
 	$st->execute();
-	$res = $st->get_result();
-	header('Content-type: application/json');
-	print json_encode(array($res->fetch_all(MYSQLI_ASSOC)), JSON_PRETTY_PRINT);
 ?>

@@ -1,7 +1,7 @@
 <?php
 function show_status() {
-	$mysqli = mysqli_connect("localhost", "root", "", "uno");
-	$sql = 'SELECT * FROM carddeck ORDER BY RAND()';
+	global $mysqli;
+	$sql = 'SELECT * FROM carddeck ORDER BY RAND() LIMIT BY 15';
 	$st = $mysqli->prepare($sql);
 	$st->execute();
 	$res = $st->get_result();
