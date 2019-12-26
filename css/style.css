@@ -1,8 +1,10 @@
 * {
     font-family: 'Montserrat', sans-serif !important;
+    background-color: #292929 !important;
+    color: #fff !important;
 }
 #mainContainer {
-    margin: 250px; 
+    margin-top: 150px; 
     text-align: center;
 }
 .table td {
