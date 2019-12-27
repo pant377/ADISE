@@ -10,3 +10,7 @@
 .table td {
     cursor: pointer;
 }
+#drawCardsButton {
+    margin-top: 15px;
+    width: 50% !important;
+}
