@@ -1,7 +1,21 @@
-$(function () {
-	empty_game();
+var gameUI = '<div class="container" id="mainContainer"> <div class="row">' + 
+'<div class="col"> </div> <div class="col" style="text-align: center;">' + 
+' <h1>UNO GAME</h1> </div> <div class="col"></div> </div> <div class="row"' + 
+' id="game" style="text-align: center;"> <div class="col" id="playerOne"> ' + 
+'Cards of player #1 <br> <table class="table" id="player1hand"> </table> ' + 
+'<button type="button" class="btn btn-success">Uno</button> <button type="button"' + 
+' class="btn btn-danger">Pass</button> </div> <div class="col"> <div id="deckTable">' + 
+'</div> <br> <button id="drawCardsButton" type="button" class="btn-lg btn-warning">Draw' + 
+'</button> </div> <div class="col" id="playerTwo"> Cards of player #2 <br> <table ' + 
+'class="table" id="player2hand"> </table> <button type="button" class="btn ' + 
+'btn-success">Uno</button> <button type="button" class="btn btn-danger">Pass</button>' + 
+' </div> </div> </div>';
+
+function generateGame() {
+    document.getElementById('mainContainer').innerHTML = gameUI;
+    empty_game();
     fill_game();
-});
+}
 
 
 function empty_game() {
@@ -10,7 +24,6 @@ function empty_game() {
 }
 
 function throwCard(value) {
-    console.log(value.innerText);
     $.ajax({url: "uno.php/game/play/", 
 			method: 'PUT',
 			dataType: "json",
