@@ -12,6 +12,7 @@ switch ($r=array_shift($request)) {
                 break;
                 case 'play': handle_move($input);
                 break;
+                case 'player': add_player($input);
                 default: header("HTTP/1.1 404 Not Found");
                 break;
         }
@@ -33,8 +34,31 @@ switch ($r=array_shift($request)) {
         exit;
 }
 
+function add_player($input) {
+        global $mysqli;
+        $sql = 'SELECT COUNT(*) AS num FROM players';
+        $sw = $mysqli -> prepare($sql);
+        $sw -> execute();
+        $req = $sw -> get_result();
+        $res = $req -> fetch_assoc(); 
+        if($res['num'] == 0 || $res['num'] >= 2) {
+                $sql = 'DELETE FROM players';
+                $sw = $mysqli -> prepare($sql);
+                $sw -> execute();
+                $sql = 'INSERT INTO players(playerId, username, turn) VALUES (1, ?, 1)';
+        }else {
+                $sql = 'INSERT INTO players(playerId, username) VALUES (2, ?)';
+        }
+        $sw = $mysqli -> prepare($sql);
+        $sw -> bind_param('s', $input['x']);
+        $sw -> execute();
+}
+
 function handle_move($input) {
         global $mysqli;
+        $sql = 'call playerTurn()';
+        $st = $mysqli->prepare($sql);
+	$st -> execute();
 	$sql = 'DELETE FROM hand WHERE cardId IN (SELECT h2.cardId FROM hand h2 INNER JOIN carddeck c2 ON c2.cardId = h2.cardId WHERE c2.cardCode =?)';
 	$sw = $mysqli -> prepare($sql);
         $sw -> bind_param('s', $input['x']);
@@ -43,11 +67,9 @@ function handle_move($input) {
 }
 
 function handle_game($method) {
-
         if($method=='GET') {
                 show_game('');
         }
-
         else if ($method=='POST') {
                 reset_game();
         }

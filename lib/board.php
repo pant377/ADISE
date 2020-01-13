@@ -13,9 +13,9 @@ function show_game($tt) {
 
 function reset_game() {
 	global $mysqli;
-	$sql='call beginGame()';
-	$st=$mysqli->prepare($sql);
-	$st->execute();
+	$sql = 'call beginGame()';
+	$st = $mysqli->prepare($sql);
+	$st -> execute();
 	$sql = 'SELECT cardId, cardCode FROM clonedeck ORDER BY RAND() LIMIT 1';
 	$sq = $mysqli -> prepare($sql);
 	$sq -> execute();
@@ -27,5 +27,3 @@ function reset_game() {
 	$sw -> execute();
 	show_game($row['cardCode']);
 }
-
-?>
