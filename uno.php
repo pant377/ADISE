@@ -23,6 +23,8 @@ switch ($r=array_shift($request)) {
                                 case '2':
                                         getPlayer('2');
                                         break;
+                                case 'all':
+                                        getPlayers();
                         }
                 break;
                 case 'draw' : add_card();
@@ -96,6 +98,16 @@ function handle_move($input) {
 	$ren = $rem -> fetch_assoc();
 
 	show_game($ren['cardCode']);
+}
+
+function getPlayers() {
+        global $mysqli;
+        $sql = 'SELECT * FROM players';
+        $sw = $mysqli -> prepare($sql);
+        $sw -> execute();
+        $req = $sw -> get_result();
+        header('Content-type: application/json');
+	print json_encode($req->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
 }
 
 function getPlayer($pl) {

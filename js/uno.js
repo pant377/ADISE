@@ -1,16 +1,4 @@
-var gameUI = '<div class="container" id="mainContainer"><div class="row">' +
-    '<div class="col"> </div> <div class="col" style="text-align: center;">' +
-    '<h1>UNO GAME</h1> </div> <div class="col"></div> </div>' +
-    ' <div class="row" id="game" style="text-align: center;">' +
-    ' <div class="col" id="playerOne"> Cards of player #1 <br>' +
-    ' <table class="table" id="player1hand"> </table>' +
-    ' <button type="button" class="btn btn-success">Uno</button>' +
-    ' <button type="button" class="btn btn-danger">Pass</button> </div>' +
-    ' <div class="col"> <div id="deckTable"> </div> <br> <div id="drawBuDiv">' +
-    ' </div> </div> <div class="col" id="playerTwo"> Cards of player #2 <br>' +
-    ' <table class="table" id="player2hand"> </table> ' +
-    '<button type="button" class="btn btn-success">Uno</button> ' +
-    '<button type="button" class="btn btn-danger">Pass</button> </div> </div> </div>';
+var gameUI = '<div class="container" id="mainContainer"> <div class="row"> <div class="col"> </div> <div class="col" style="text-align: center;"> <h1> <b>UNO GAME</b> </h1> </div> <div class="col"></div> </div> <div class="row" id="game" style="text-align: center;"> <div class="col" id="playerOne"> <div id="playerOneName"> </div> <br> <table class="table" id="player1hand"> </table> <button type="button" class="btn btn-success">Uno</button> <button type="button" class="btn btn-danger">Pass</button> </div> <div class="col"> <div id="deckTable"> </div> <br> <div id="drawBuDiv"> </div> </div> <div class="col" id="playerTwo"> <div id="playerTwoName"></div> <br> <table class="table" id="player2hand"> </table> </div> </div> </div>';
 var player = null;
 
 function addPlayer() {
@@ -58,7 +46,6 @@ function updatePlayer(data) {
 
 function givePlayerValue(data) {
     player = data[0];
-    console.log(player);
     generateGame();
 }
 
@@ -101,8 +88,18 @@ function fill_game() {
     });
 }
 
+function player_two_name(data) {
+    console.log(data[0].playerId);
+    if(player.playerId == data[0].playerId) {
+        document.getElementById('playerOneName').innerHTML = data[0].username;
+        document.getElementById('playerTwoName').innerHTML = data[1].username; 
+    } else {
+        document.getElementById('playerOneName').innerHTML = data[1].username;
+        document.getElementById('playerTwoName').innerHTML = data[0].username;
+    }
+}
+
 function fill_game_by_data(data) {
-    console.log(data);
     var hand_one = '<tbody><tr>';
     var hand_two = '<tbody><tr>';
     var counter = 0;
@@ -133,5 +130,10 @@ function fill_game_by_data(data) {
         document.getElementById('player1hand').innerHTML = hand_one;
         document.getElementById('player2hand').innerHTML = hand_two;
         document.getElementById('deckTable').innerHTML = '<h3>' + data[1] + '</h3>';
+        $.ajax({
+            type: 'POST',
+            url: "uno.php/game/player/" + "all" ,
+            success: player_two_name
+        });
     }
 }
