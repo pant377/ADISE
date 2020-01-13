@@ -10,7 +10,16 @@ switch ($r=array_shift($request)) {
                 case '':
                         case null: handle_game($method);
                 break;
-                case 'play': handle_move($input);
+                case 'play':
+                        switch($b=array_shift($request)) {
+                                case '':
+                                        case null: handle_move($input);  
+                                break;
+                                case 'ch_col': change_color($input);
+                                break;
+                                case 'add_ch_col': handle_move_ch($input);
+                                break;
+                        }
                 break;
                 case 'player': 
                         switch ($b=array_shift($request)) {
@@ -96,6 +105,49 @@ function add_player($input) {
         $req = $sw -> get_result();
         header('Content-type: application/json');
 	print json_encode($req->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
+}
+
+function change_color($input) {
+        global $mysqli;
+
+        $sql = 'call playerTurn()';
+        $st = $mysqli->prepare($sql);
+	$st -> execute();
+
+        $sql = 'INSERT INTO cardTable(cardCode) VALUES(?)';
+	$sw = $mysqli -> prepare($sql);
+        $sw -> bind_param('s', $input['x']);
+        $sw -> execute();
+
+        $sql = 'SELECT cardCode FROM cardtable WHERE number = (SELECT MAX(number) FROM cardtable)';
+	$sm = $mysqli -> prepare($sql);
+	$sm -> execute();
+	$rem = $sm -> get_result();
+	$ren = $rem -> fetch_assoc();
+
+	show_game($ren['cardCode']);
+}
+
+function handle_move_ch($input) {
+        global $mysqli;
+        
+        $sql = 'DELETE FROM hand WHERE cardId IN (SELECT h2.cardId FROM hand h2 INNER JOIN carddeck c2 ON c2.cardId = h2.cardId INNER JOIN players p on h2.playerId = p.playerId WHERE c2.cardCode = ? AND p.turn = 0) LIMIT 1';
+	$sw = $mysqli -> prepare($sql);
+        $sw -> bind_param('s', $input['x']);
+        $sw -> execute();
+
+        $sql = 'INSERT INTO cardTable(cardCode) VALUES(?)';
+	$sw = $mysqli -> prepare($sql);
+        $sw -> bind_param('s', $input['x']);
+        $sw -> execute();
+
+        $sql = 'SELECT cardCode FROM cardtable WHERE number = (SELECT MAX(number) FROM cardtable)';
+	$sm = $mysqli -> prepare($sql);
+	$sm -> execute();
+	$rem = $sm -> get_result();
+	$ren = $rem -> fetch_assoc();
+
+	show_game($ren['cardCode']);
 }
 
 function handle_move($input) {

@@ -41,8 +41,8 @@ function empty_game() {
 function throwCard(value) {
     console.log(value.innerText.length);
     var deck = document.getElementById('deckTable').innerText;
-    if (value.innerText.length == 2 && deck.length == 2) {
-        if (value.innerText[0] == deck[0] || value.innerText[1] == deck[1]) {
+    if (value.innerText.length == 2) {
+        if (value.innerText[0] == deck[0] || value.innerText[1] == deck[1] || deck[length-1]) {
             $.ajax({
                 url: "uno.php/game/play/",
                 method: 'PUT',
@@ -73,7 +73,7 @@ function throwCard(value) {
             });
         }
     } else if (value.innerText.length == 4) {
-        if (value.innerText[3].toLowerCase() == deck[0]) {
+        if (value.innerText[3].toLowerCase() == deck[0] || value.innerText[3].toLowerCase() == deck[length-1]) {
             $.ajax({
                 url: "uno.php/game/play/",
                 method: 'PUT',
@@ -87,7 +87,7 @@ function throwCard(value) {
         }
     } else if (value.innerText.length == 5) {
         $.ajax({
-            url: "uno.php/game/play/",
+            url: "uno.php/game/play/add_ch_col",
             method: 'PUT',
             dataType: "json",
             contentType: 'application/json',
@@ -124,15 +124,16 @@ function color_picker(color) {
             break;
     }
     $.ajax({
-        url: "uno.php/game/play/",
+        url: "uno.php/game/play/ch_col",
         method: 'PUT',
         dataType: "json",
         contentType: 'application/json',
         data: JSON.stringify({
-            x: color.innerText
+            x: color
         }),
         success: fill_game_by_data
     });
+    document.getElementById('colors_div').innerHTML = "";
 }
 
 function pass() {
