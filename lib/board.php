@@ -32,3 +32,27 @@ function reset_game() {
 	$sw -> execute();
 	show_game($row['cardCode']);
 }
+
+function add_card() {
+	global $mysqli;
+	$sql = 'SELECT cardId AS ci FROM clonedeck ORDER BY RAND() LIMIT 1';
+	$sq = $mysqli -> prepare($sql);
+	$sq -> execute();
+	$req = $sq -> get_result();
+	$row = $req -> fetch_assoc();
+
+	$sql = 'SELECT playerId AS pi FROM players WHERE turn = 1';
+	$sw = $mysqli -> prepare($sql);
+	$sw -> execute();
+	$rew = $sw -> get_result();
+	$res = $rew -> fetch_assoc();
+	if($res['pi'] == 1) {
+		$sql = 'INSERT INTO hand(playerId, cardId) VALUES (1, ?)';
+	} else {
+		$sql = 'INSERT INTO hand(playerId, cardId) VALUES (2, ?)';
+	}
+	$sx = $mysqli -> prepare($sql);
+	$sx -> bind_param('i', $row['ci']);
+	$sx -> execute();
+	show_game('');
+}

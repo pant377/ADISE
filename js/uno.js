@@ -29,6 +29,13 @@ function addPlayer() {
     }
 }
 
+function drawCard() {
+    $.ajax({
+        type: 'POST',
+        url: "uno.php/game/draw",
+        success: fill_game_by_data
+    });
+}
 
 function generateGame() {
     document.getElementById('mainContainer').innerHTML = gameUI;
@@ -63,6 +70,7 @@ function fill_game() {
 }
 
 function fill_game_by_data(data) {
+    console.log('i am here');
     var hand_one = '<tbody><tr>';
     var hand_two = '<tbody><tr>';
     if (data[2] == 1) {
@@ -73,8 +81,7 @@ function fill_game_by_data(data) {
                 hand_two += '<td style="cursor: context-menu;">' + data[0][i].cardCode + '</td>';
             }
         }
-    }
-    else {
+    } else {
         for (var i = 0; i < data[0].length; i++) {
             if (data[0][i].playerId == 1) {
                 hand_one += '<td style="cursor: context-menu;">' + data[0][i].cardCode + '</td>';

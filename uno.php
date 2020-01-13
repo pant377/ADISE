@@ -13,6 +13,9 @@ switch ($r=array_shift($request)) {
                 case 'play': handle_move($input);
                 break;
                 case 'player': add_player($input);
+                break;
+                case 'draw' : add_card();
+                break;
                 default: header("HTTP/1.1 404 Not Found");
                 break;
         }
@@ -26,9 +29,6 @@ switch ($r=array_shift($request)) {
         else {
                 header("HTTP/1.1 404 Not Found");
         }
-
-        break;
-        case 'players': echo ("hija");
         break;
         default: header("HTTP/1.1 404 Not Found");
         exit;
@@ -59,7 +59,7 @@ function handle_move($input) {
         $sql = 'call playerTurn()';
         $st = $mysqli->prepare($sql);
 	$st -> execute();
-	$sql = 'DELETE FROM hand WHERE cardId IN (SELECT h2.cardId FROM hand h2 INNER JOIN carddeck c2 ON c2.cardId = h2.cardId WHERE c2.cardCode =?)';
+	$sql = 'DELETE FROM hand WHERE cardId IN (SELECT h2.cardId FROM hand h2 INNER JOIN carddeck c2 ON c2.cardId = h2.cardId INNER JOIN players p on h2.playerId = p.playerId WHERE c2.cardCode = ? AND p.turn = 0) LIMIT 1';
 	$sw = $mysqli -> prepare($sql);
         $sw -> bind_param('s', $input['x']);
         $sw -> execute();
