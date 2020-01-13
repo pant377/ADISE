@@ -1,4 +1,14 @@
-var gameUI = '<div class="container" id="mainContainer"> <div class="row"> <div class="col"> </div> <div class="col" style="text-align: center;"> <h1> <b>UNO GAME</b> </h1> </div> <div class="col"></div> </div> <div class="row" id="game" style="text-align: center;"> <div class="col" id="playerOne"> <div id="playerOneName"> </div> <br> <table class="table" id="player1hand"> </table> <button type="button" class="btn btn-success">Uno</button> <button type="button" class="btn btn-danger">Pass</button> </div> <div class="col"> <div id="deckTable"> </div> <br> <div id="drawBuDiv"> </div> </div> <div class="col" id="playerTwo"> <div id="playerTwoName"></div> <br> <table class="table" id="player2hand"> </table> </div> </div> </div>';
+var gameUI = '<div class="container" id="mainContainer">' +
+    ' <div class="row"> <div class="col"> </div> <div class="col" style="text-align: center;">' +
+    ' <h1> <b>UNO GAME</b> </h1> </div> <div class="col"></div> </div>' +
+    ' <div class="row" id="game" style="text-align: center;"> <div class="col" id="playerOne">' +
+    ' <div id="playerOneName"> </div> <br> <table class="table" id="player1hand">' +
+    ' </table> <div id="btns" style="padding: 5px;">' +
+    ' <button type="button" class="btn btn-success">Uno</button> ' +
+    ' <button type="button" class="btn btn-danger" onclick="pass()" disabled>Pass</button> ' +
+    ' </div> </div> <div class="col"> <div id="deckTable"> </div> <br> <div id="drawBuDiv"> </div>' +
+    ' </div> <div class="col" id="playerTwo"> <div id="playerTwoName"></div> <br>' +
+    ' <table class="table" id="player2hand"> </table> </div> </div> </div>';
 var player = null;
 
 function addPlayer() {
@@ -80,22 +90,35 @@ function throwCard(value) {
     });
 }
 
+function pass() {
+    if (player.turn == 1)
+        $.ajax({
+            url: "uno.php/game/play/",
+            method: 'PUT',
+        });
+}
+
 function fill_game() {
     $.ajax({
         type: 'GET',
         url: "uno.php/game/",
         success: fill_game_by_data
     });
+
 }
 
 function player_two_name(data) {
-    console.log(data[0].playerId);
-    if(player.playerId == data[0].playerId) {
-        document.getElementById('playerOneName').innerHTML = data[0].username;
-        document.getElementById('playerTwoName').innerHTML = data[1].username; 
+    if (data[1]) {
+        if (player.playerId == data[0].playerId) {
+            document.getElementById('playerOneName').innerHTML = data[0].username;
+            document.getElementById('playerTwoName').innerHTML = data[1].username;
+        } else {
+            document.getElementById('playerOneName').innerHTML = data[1].username;
+            document.getElementById('playerTwoName').innerHTML = data[0].username;
+        }
     } else {
-        document.getElementById('playerOneName').innerHTML = data[1].username;
-        document.getElementById('playerTwoName').innerHTML = data[0].username;
+        document.getElementById('playerOneName').innerHTML = data[0].username;
+        document.getElementById('playerTwoName').innerHTML = "Waiting for others to join...";
     }
 }
 
@@ -114,6 +137,8 @@ function fill_game_by_data(data) {
                 }
             }
             document.getElementById('drawBuDiv').innerHTML = '<button id="drawCardsButton" type="button" onclick="drawCard()" class="btn-lg btn-warning">Draw</button>';
+            document.getElementById('btns').innerHTML = '<button type="button" class="btn btn-success">Uno</button>' +
+                '<button type="button" class="btn btn-danger" style="margin: 15px;" onclick="pass()">Pass</button>';
         } else {
             for (var i = 0; i < data[0].length; i++) {
                 if (data[0][i].playerId == player.playerId) {
@@ -123,6 +148,8 @@ function fill_game_by_data(data) {
                     hand_two += '<td style="cursor: context-menu;">' + counter + '</td>';
                 }
                 document.getElementById('drawBuDiv').innerHTML = '<button id="drawCardsButton" type="button" class="btn-lg btn-warning" disabled>Draw</button>';
+                document.getElementById('btns').innerHTML = '<button type="button" class="btn btn-success">Uno</button>' +
+                    '<button type="button" class="btn btn-danger" style="margin: 15px; cursor:context-menu;" disabled>Pass</button>';
             }
         }
         hand_one += '</tbody></tr>';
@@ -132,7 +159,7 @@ function fill_game_by_data(data) {
         document.getElementById('deckTable').innerHTML = '<h3>' + data[1] + '</h3>';
         $.ajax({
             type: 'POST',
-            url: "uno.php/game/player/" + "all" ,
+            url: "uno.php/game/player/" + "all",
             success: player_two_name
         });
     }

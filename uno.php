@@ -27,6 +27,7 @@ switch ($r=array_shift($request)) {
                                         getPlayers();
                         }
                 break;
+                case 'pass' : pass();
                 case 'draw' : add_card();
                 break;
                 default: header("HTTP/1.1 404 Not Found");
@@ -45,6 +46,21 @@ switch ($r=array_shift($request)) {
         break;
         default: header("HTTP/1.1 404 Not Found");
         exit;
+}
+
+function pass() {
+        global $mysqli;
+        $sql = 'call playerTurn()';
+        $st = $mysqli->prepare($sql);
+        $st -> execute();
+        
+        $sql = 'SELECT cardCode FROM cardtable WHERE number = (SELECT MAX(number) FROM cardtable)';
+	$sm = $mysqli -> prepare($sql);
+	$sm -> execute();
+	$rem = $sm -> get_result();
+	$ren = $rem -> fetch_assoc();
+
+	show_game($ren['cardCode']);
 }
 
 function add_player($input) {

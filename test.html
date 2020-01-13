@@ -38,8 +38,10 @@
                 </div>
                 <br>
                 <table class="table" id="player1hand"> </table>
-                <button type="button" class="btn btn-success">Uno</button>
-                <button type="button" class="btn btn-danger">Pass</button>
+                <div id="btns">
+                    <button type="button" class="btn btn-success" style="padding-left: 5px;">Uno</button>
+                    <button type="button" class="btn btn-danger" onclick="pass()" disabled>Pass</button>
+                </div>
             </div>
             <div class="col">
                 <div id="deckTable"> </div>
