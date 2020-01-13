@@ -207,6 +207,10 @@ h1 {
   font-size: 12px;
 }
 
+#colors_div {
+  cursor: pointer;
+}
+
 #green {
   background-color: #32CD32 !important;
 }
