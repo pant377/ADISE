@@ -13,6 +13,9 @@ switch ($r=array_shift($request)) {
                 case 'play': handle_move($input);
                 break;
                 case 'player': add_player($input);
+                break;
+                case 'draw' : add_card();
+                break;
                 default: header("HTTP/1.1 404 Not Found");
                 break;
         }
@@ -26,9 +29,6 @@ switch ($r=array_shift($request)) {
         else {
                 header("HTTP/1.1 404 Not Found");
         }
-
-        break;
-        case 'players': echo ("hija");
         break;
         default: header("HTTP/1.1 404 Not Found");
         exit;

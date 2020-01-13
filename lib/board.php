@@ -6,8 +6,13 @@ function show_game($tt) {
 	$st = $mysqli -> prepare($sql);
 	$st -> execute();
 	$res = $st -> get_result();
+	$sql = 'SELECT turn AS tr FROM players WHERE playerid = 1';
+	$sw = $mysqli -> prepare($sql);
+	$req = $sw -> execute();
+	$req = $sw -> get_result();
+	$rew = $req -> fetch_assoc();
 	header('Content-type: application/json');
-	print json_encode(array($res->fetch_all(MYSQLI_ASSOC), $tt), JSON_PRETTY_PRINT);
+	print json_encode(array($res->fetch_all(MYSQLI_ASSOC), $tt, $rew['tr']), JSON_PRETTY_PRINT);
 }
 
 
@@ -26,4 +31,28 @@ function reset_game() {
 	$sw -> bind_param('i', $row['cardId']);  
 	$sw -> execute();
 	show_game($row['cardCode']);
+}
+
+function add_card() {
+	global $mysqli;
+	$sql = 'SELECT cardId AS ci FROM clonedeck ORDER BY RAND() LIMIT 1';
+	$sq = $mysqli -> prepare($sql);
+	$sq -> execute();
+	$req = $sq -> get_result();
+	$row = $req -> fetch_assoc();
+
+	$sql = 'SELECT playerId AS pi FROM players WHERE turn = 1';
+	$sw = $mysqli -> prepare($sql);
+	$sw -> execute();
+	$rew = $sw -> get_result();
+	$res = $rew -> fetch_assoc();
+	if($res['pi'] == 1) {
+		$sql = 'INSERT INTO hand(playerId, cardId) VALUES (1, ?)';
+	} else {
+		$sql = 'INSERT INTO hand(playerId, cardId) VALUES (2, ?)';
+	}
+	$sx = $mysqli -> prepare($sql);
+	$sx -> bind_param('i', $row['ci']);
+	$sx -> execute();
+	show_game('');
 }

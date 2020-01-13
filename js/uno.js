@@ -5,7 +5,7 @@ var gameUI = '<div class="container" id="mainContainer"> <div class="row">' +
     'Cards of player #1 <br> <table class="table" id="player1hand"> </table> ' +
     '<button type="button" class="btn btn-success">Uno</button> <button type="button"' +
     ' class="btn btn-danger">Pass</button> </div> <div class="col"> <div id="deckTable">' +
-    '</div> <br> <button id="drawCardsButton" type="button" class="btn-lg btn-warning">Draw' +
+    '</div> <br> <button id="drawCardsButton" type="button" onclick="drawCard()" class="btn-lg btn-warning">Draw' +
     '</button> </div> <div class="col" id="playerTwo"> Cards of player #2 <br> <table ' +
     'class="table" id="player2hand"> </table> <button type="button" class="btn ' +
     'btn-success">Uno</button> <button type="button" class="btn btn-danger">Pass</button>' +
@@ -15,7 +15,7 @@ var counter = 0;
 function addPlayer() {
     var username = document.getElementById('usrnm');
     if (username.value != '') {
-        counter ++;
+        counter++;
         $.ajax({
             url: "uno.php/game/player/",
             method: 'PUT',
@@ -27,6 +27,14 @@ function addPlayer() {
         });
         generateGame();
     }
+}
+
+function drawCard() {
+    $.ajax({
+        type: 'POST',
+        url: "uno.php/game/draw",
+        success: fill_game_by_data
+    });
 }
 
 function generateGame() {
@@ -62,13 +70,24 @@ function fill_game() {
 }
 
 function fill_game_by_data(data) {
+    console.log('i am here');
     var hand_one = '<tbody><tr>';
     var hand_two = '<tbody><tr>';
-    for (var i = 0; i < data[0].length; i++) {
-        if (data[0][i].playerId == 1) {
-            hand_one += '<td onclick="throwCard(this)">' + data[0][i].cardCode + '</td>';
-        } else if (data[0][i].playerId == 2) {
-            hand_two += '<td onclick="throwCard(this)">' + data[0][i].cardCode + '</td>';
+    if (data[2] == 1) {
+        for (var i = 0; i < data[0].length; i++) {
+            if (data[0][i].playerId == 1) {
+                hand_one += '<td onclick="throwCard(this)" style="cursor: pointer;">' + data[0][i].cardCode + '</td>';
+            } else if (data[0][i].playerId == 2) {
+                hand_two += '<td style="cursor: context-menu;">' + data[0][i].cardCode + '</td>';
+            }
+        }
+    } else {
+        for (var i = 0; i < data[0].length; i++) {
+            if (data[0][i].playerId == 1) {
+                hand_one += '<td style="cursor: context-menu;">' + data[0][i].cardCode + '</td>';
+            } else if (data[0][i].playerId == 2) {
+                hand_two += '<td onclick="throwCard(this)" style="cursor: pointer;">' + data[0][i].cardCode + '</td>';
+            }
         }
     }
     hand_one += '</tbody></tr>';
