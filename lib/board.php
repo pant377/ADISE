@@ -1,40 +1,52 @@
 <?php
 
-function show_game($tt) {
+function show_game($ttable) {
 	global $mysqli;
 	$sql = 'SELECT cardCode, playerId FROM hand INNER JOIN carddeck WHERE hand.cardid = carddeck.cardid';
 	$st = $mysqli -> prepare($sql);
 	$st -> execute();
 	$res = $st -> get_result();
+
 	$sql = 'SELECT turn AS tr FROM players WHERE playerid = 1';
 	$sw = $mysqli -> prepare($sql);
 	$req = $sw -> execute();
 	$req = $sw -> get_result();
 	$rew = $req -> fetch_assoc();
+
 	header('Content-type: application/json');
-	print json_encode(array($res->fetch_all(MYSQLI_ASSOC), $tt, $rew['tr']), JSON_PRETTY_PRINT);
+	print json_encode(array($res->fetch_all(MYSQLI_ASSOC), $ttable, $rew['tr']), JSON_PRETTY_PRINT);
 }
 
 
 function reset_game() {
 	global $mysqli;
+	
 	$sql = 'call beginGame()';
 	$st = $mysqli->prepare($sql);
 	$st -> execute();
+
 	$sql = 'SELECT cardId, cardCode FROM clonedeck ORDER BY RAND() LIMIT 1';
 	$sq = $mysqli -> prepare($sql);
 	$sq -> execute();
 	$req = $sq -> get_result();
 	$row = $req -> fetch_assoc();
+	
 	$sql = 'DELETE FROM clonedeck WHERE cardId = ?';
 	$sw = $mysqli -> prepare($sql);
 	$sw -> bind_param('i', $row['cardId']);  
 	$sw -> execute();
+	
+	$sql = 'INSERT INTO cardTable(cardCode) VALUES(?)';
+	$sm = $mysqli -> prepare($sql);
+	$sm -> bind_param('s', $row['cardCode']);
+	$sm -> execute();
+
 	show_game($row['cardCode']);
 }
 
 function add_card() {
 	global $mysqli;
+	
 	$sql = 'SELECT cardId AS ci FROM clonedeck ORDER BY RAND() LIMIT 1';
 	$sq = $mysqli -> prepare($sql);
 	$sq -> execute();
@@ -46,13 +58,22 @@ function add_card() {
 	$sw -> execute();
 	$rew = $sw -> get_result();
 	$res = $rew -> fetch_assoc();
+	
 	if($res['pi'] == 1) {
 		$sql = 'INSERT INTO hand(playerId, cardId) VALUES (1, ?)';
 	} else {
 		$sql = 'INSERT INTO hand(playerId, cardId) VALUES (2, ?)';
 	}
+
 	$sx = $mysqli -> prepare($sql);
 	$sx -> bind_param('i', $row['ci']);
 	$sx -> execute();
-	show_game('');
+
+	$sql = 'SELECT cardCode FROM cardtable WHERE number = (SELECT MAX(number) FROM cardtable)';
+	$sm = $mysqli -> prepare($sql);
+	$sm -> execute();
+	$rem = $sm -> get_result();
+	$ren = $rem -> fetch_assoc();
+
+	show_game($ren['cardCode']);
 }

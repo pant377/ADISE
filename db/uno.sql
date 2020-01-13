@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 28, 2019 at 09:04 PM
+-- Generation Time: Jan 10, 2020 at 11:47 AM
 -- Server version: 10.4.10-MariaDB
 -- PHP Version: 7.1.33
 
@@ -31,6 +31,9 @@ DECLARE tempid tinyint;
 DECLARE counter tinyint;
 DELETE FROM clonedeck;
 DELETE FROM hand;
+DELETE FROM players;
+DELETE FROM  cardtable;
+ALTER TABLE cardtable AUTO_INCREMENT=1;
 REPLACE INTO clonedeck SELECT * FROM carddeck;
 SET counter = 0;
 WHILE(counter < 7) DO
@@ -187,6 +190,25 @@ INSERT INTO `carddeck` (`cardId`, `cardCode`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `cardtable`
+--
+
+CREATE TABLE `cardtable` (
+  `number` int(11) NOT NULL,
+  `cardCode` varchar(10) COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `cardtable`
+--
+
+INSERT INTO `cardtable` (`number`, `cardCode`) VALUES
+(1, 'b6'),
+(2, 'g8');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `clonedeck`
 --
 
@@ -200,24 +222,26 @@ CREATE TABLE `clonedeck` (
 --
 
 INSERT INTO `clonedeck` (`cardId`, `cardCode`) VALUES
+(1, 'r0'),
+(2, 'r1'),
 (3, 'r1'),
 (4, 'r2'),
 (5, 'r2'),
 (6, 'r3'),
 (7, 'r3'),
+(8, 'r4'),
 (9, 'r4'),
 (10, 'r5'),
 (11, 'r5'),
 (12, 'r6'),
 (13, 'r6'),
 (14, 'r7'),
-(15, 'r7'),
 (16, 'r8'),
 (17, 'r8'),
 (18, 'r9'),
 (19, 'r9'),
-(20, 'y0'),
 (21, 'y1'),
+(22, 'y1'),
 (23, 'y2'),
 (24, 'y2'),
 (26, 'y3'),
@@ -227,22 +251,19 @@ INSERT INTO `clonedeck` (`cardId`, `cardCode`) VALUES
 (30, 'y5'),
 (31, 'y6'),
 (32, 'y6'),
+(33, 'y7'),
 (34, 'y7'),
 (35, 'y8'),
 (36, 'y8'),
-(37, 'y9'),
-(38, 'y9'),
 (39, 'b0'),
-(40, 'b1'),
 (41, 'b1'),
 (42, 'b2'),
 (43, 'b2'),
+(44, 'b3'),
 (45, 'b3'),
 (46, 'b4'),
-(47, 'b4'),
 (48, 'b5'),
 (49, 'b5'),
-(50, 'b6'),
 (51, 'b6'),
 (52, 'b7'),
 (53, 'b7'),
@@ -251,33 +272,34 @@ INSERT INTO `clonedeck` (`cardId`, `cardCode`) VALUES
 (56, 'b9'),
 (57, 'b9'),
 (58, 'g0'),
-(59, 'g1'),
 (60, 'g1'),
 (61, 'g2'),
+(62, 'g2'),
 (63, 'g3'),
-(64, 'g3'),
 (65, 'g4'),
 (66, 'g4'),
+(67, 'g5'),
 (68, 'g5'),
 (69, 'g6'),
 (70, 'g6'),
 (71, 'g7'),
 (72, 'g7'),
 (73, 'g8'),
+(75, 'g9'),
 (76, 'g9'),
+(77, '+2r'),
 (78, '+2r'),
+(79, '+2y'),
 (80, '+2y'),
+(81, '+2b'),
 (82, '+2b'),
-(83, '+2g'),
 (84, '+2g'),
-(85, 'revR'),
 (86, 'revR'),
 (87, 'revY'),
 (88, 'revY'),
 (89, 'revB'),
 (90, 'revB'),
 (91, 'revG'),
-(92, 'revG'),
 (93, 'skiR'),
 (94, 'skiR'),
 (95, 'skiY'),
@@ -290,8 +312,8 @@ INSERT INTO `clonedeck` (`cardId`, `cardCode`) VALUES
 (102, 'chCol'),
 (103, 'chCol'),
 (104, 'chCol'),
+(105, 'chCol'),
 (106, 'chCol'),
-(107, 'chCol'),
 (108, 'chCol');
 
 -- --------------------------------------------------------
@@ -310,17 +332,19 @@ CREATE TABLE `hand` (
 --
 
 INSERT INTO `hand` (`playerId`, `cardId`) VALUES
-(1, 22),
-(2, 105),
-(2, 62),
-(1, 44),
-(2, 74),
-(1, 77),
-(2, 2),
+(1, 64),
+(2, 107),
+(1, 47),
+(2, 85),
+(1, 92),
+(2, 40),
+(1, 20),
+(2, 37),
+(2, 59),
 (1, 25),
-(2, 79),
-(1, 1),
-(2, 8);
+(2, 38),
+(1, 15),
+(2, 83);
 
 -- --------------------------------------------------------
 
@@ -339,8 +363,8 @@ CREATE TABLE `players` (
 --
 
 INSERT INTO `players` (`playerId`, `username`, `turn`) VALUES
-(1, 'papa francis', 0),
-(2, 'victoria secret', 1);
+(1, 'hahax', 0),
+(2, 'vol 2', 1);
 
 --
 -- Indexes for dumped tables
@@ -351,6 +375,22 @@ INSERT INTO `players` (`playerId`, `username`, `turn`) VALUES
 --
 ALTER TABLE `carddeck`
   ADD PRIMARY KEY (`cardId`);
+
+--
+-- Indexes for table `cardtable`
+--
+ALTER TABLE `cardtable`
+  ADD PRIMARY KEY (`number`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `cardtable`
+--
+ALTER TABLE `cardtable`
+  MODIFY `number` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

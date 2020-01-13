@@ -40,7 +40,7 @@
                     <div class='bg-inner'></div>
                 </div>
             </div>
-            <button class='btn block-cube block-cube-hover' type='button'>
+            <button class='btn block-cube block-cube-hover' onclick="addPlayer()" type='button'>
                 <div class='bg-top'>
                     <div class='bg-inner'></div>
                 </div>
@@ -50,12 +50,26 @@
                 <div class='bg'>
                     <div class='bg-inner'></div>
                 </div>
-                <div class='text' onclick="addPlayer()">
+                <div class='text'>
                     Log In
                 </div>
             </button>
         </form>
-        <button onclick="resetGame()">CLICK ME</button>
+        <button class='btn block-cube block-cube-hover' onclick="resetGame()" type='button'>
+            <div class='bg-top'>
+                <div class='bg-inner'></div>
+            </div>
+            <div class='bg-right'>
+                <div class='bg-inner'></div>
+            </div>
+            <div class='bg'>
+                <div class='bg-inner'></div>
+            </div>
+            <div class='text'>
+                Reset Last Game
+            </div>
+        </button>
+        <div id="success"></div>
     </div>
 </body>
 

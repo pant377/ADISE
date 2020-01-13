@@ -78,11 +78,24 @@ function handle_move($input) {
         $sql = 'call playerTurn()';
         $st = $mysqli->prepare($sql);
 	$st -> execute();
-	$sql = 'DELETE FROM hand WHERE cardId IN (SELECT h2.cardId FROM hand h2 INNER JOIN carddeck c2 ON c2.cardId = h2.cardId INNER JOIN players p on h2.playerId = p.playerId WHERE c2.cardCode = ? AND p.turn = 0) LIMIT 1';
+        
+        $sql = 'DELETE FROM hand WHERE cardId IN (SELECT h2.cardId FROM hand h2 INNER JOIN carddeck c2 ON c2.cardId = h2.cardId INNER JOIN players p on h2.playerId = p.playerId WHERE c2.cardCode = ? AND p.turn = 0) LIMIT 1';
 	$sw = $mysqli -> prepare($sql);
         $sw -> bind_param('s', $input['x']);
         $sw -> execute();
-        show_game($input['x']);
+
+        $sql = 'INSERT INTO cardTable(cardCode) VALUES(?)';
+	$sw = $mysqli -> prepare($sql);
+        $sw -> bind_param('s', $input['x']);
+        $sw -> execute();
+
+        $sql = 'SELECT cardCode FROM cardtable WHERE number = (SELECT MAX(number) FROM cardtable)';
+	$sm = $mysqli -> prepare($sql);
+	$sm -> execute();
+	$rem = $sm -> get_result();
+	$ren = $rem -> fetch_assoc();
+
+	show_game($ren['cardCode']);
 }
 
 function getPlayer($pl) {
@@ -97,8 +110,14 @@ function getPlayer($pl) {
 }
 
 function handle_game($method) {
+        global $mysqli;
         if($method=='GET') {
-                show_game('');
+                $sql = 'SELECT cardCode FROM cardtable WHERE number = (SELECT MAX(number) FROM cardtable)';
+	        $sm = $mysqli -> prepare($sql);
+	        $sm -> execute();
+	        $rem = $sm -> get_result();
+	        $ren = $rem -> fetch_assoc();
+	        show_game($ren['cardCode']);
         }
         else if ($method=='POST') {
                 reset_game();
