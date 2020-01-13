@@ -39,10 +39,11 @@ function empty_game() {
 }
 
 function throwCard(value) {
-    console.log(value.innerText.length);
     var deck = document.getElementById('deckTable').innerText;
+    console.log(deck[deck.length - 1]);
     if (value.innerText.length == 2) {
-        if (value.innerText[0] == deck[0] || value.innerText[1] == deck[1] || deck[length-1]) {
+        if (value.innerText[0] == deck[0] || value.innerText[1] == deck[1] ||
+            value.innerText[0] == deck[deck.length - 1].toLowerCase()) {
             $.ajax({
                 url: "uno.php/game/play/",
                 method: 'PUT',
@@ -55,7 +56,8 @@ function throwCard(value) {
             });
         }
     } else if (value.innerText.length == 3) {
-        if (value.innerText[2] == deck[0]) {
+        if (value.innerText[2] == deck[0] || 
+            value.innerText[2] == deck[deck.length - 1].toLowerCase()) {
             $.ajax({
                 type: 'POST',
                 url: "uno.php/game/draw/enemy",
@@ -73,17 +75,31 @@ function throwCard(value) {
             });
         }
     } else if (value.innerText.length == 4) {
-        if (value.innerText[3].toLowerCase() == deck[0] || value.innerText[3].toLowerCase() == deck[length-1]) {
-            $.ajax({
-                url: "uno.php/game/play/",
-                method: 'PUT',
-                dataType: "json",
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    x: value.innerText
-                }),
-                success: fill_game_by_data
-            });
+        if (value.innerText[3].toLowerCase() == deck[0] ||
+            value.innerText[3].toLowerCase() == deck[deck.length - 1].toLowerCase()) {
+            if (value.innerText[0] == "s") {
+                $.ajax({
+                    url: "uno.php/game/play/skip",
+                    method: 'PUT',
+                    dataType: "json",
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        x: value.innerText
+                    }),
+                    success: fill_game_by_data
+                });
+            } else {
+                $.ajax({
+                    url: "uno.php/game/play",
+                    method: 'PUT',
+                    dataType: "json",
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        x: value.innerText
+                    }),
+                    success: fill_game_by_data
+                });
+            }
         }
     } else if (value.innerText.length == 5) {
         $.ajax({
