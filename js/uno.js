@@ -8,7 +8,8 @@ var gameUI = '<div class="container" id="mainContainer">' +
     ' <button type="button" class="btn btn-danger" onclick="pass()" disabled>Pass</button> ' +
     ' </div> </div> <div class="col"> <div id="deckTable"> </div> <br> <div id="drawBuDiv"> </div>' +
     ' </div> <div class="col" id="playerTwo"> <div id="playerTwoName"></div> <br>' +
-    ' <table class="table" id="player2hand"> </table> </div> </div> </div><div id="success"></div>';
+    ' <table class="table" id="player2hand"> </table> </div> </div> </div><div id="success"></div>' +
+    ' <div id="colors_div"> </div>';
 
 function resetGame() {
     document.getElementById('success').innerHTML = '*New Game Started*<br>Try Logging In'
@@ -38,16 +39,94 @@ function empty_game() {
 }
 
 function throwCard(value) {
-    $.ajax({
-        url: "uno.php/game/play/",
-        method: 'PUT',
-        dataType: "json",
-        contentType: 'application/json',
-        data: JSON.stringify({
-            x: value.innerText
-        }),
-        success: fill_game_by_data
-    });
+    console.log(value.innerText.length);
+    var deck = document.getElementById('deckTable').innerText;
+    if (value.innerText.length == 2 && deck.length == 2) {
+        if (value.innerText[0] == deck[0] || value.innerText[1] == deck[1]) {
+            $.ajax({
+                url: "uno.php/game/play/",
+                method: 'PUT',
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    x: value.innerText
+                }),
+                success: fill_game_by_data
+            });
+        }
+    } else if (value.innerText.length == 3) {
+        if (value.innerText[2] == deck[0]) {
+            $.ajax({
+                type: 'POST',
+                url: "uno.php/game/draw/enemy",
+                success: fill_game_by_data
+            });
+            $.ajax({
+                url: "uno.php/game/play/",
+                method: 'PUT',
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    x: value.innerText
+                }),
+                success: fill_game_by_data
+            });
+        }
+    } else if (value.innerText.length == 4) {
+        if (value.innerText[3].toLowerCase() == deck[0]) {
+            $.ajax({
+                url: "uno.php/game/play/",
+                method: 'PUT',
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    x: value.innerText
+                }),
+                success: fill_game_by_data
+            });
+        }
+    } else if (value.innerText.length == 5) {
+        console.log('i was in here before');
+        $.ajax({
+            url: "uno.php/game/play/",
+            method: 'PUT',
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({
+                x: value.innerText
+            }),
+            success: fill_game_by_data
+        });
+        document.getElementById('colors_div').innerHTML = '<div class="container"> ' +
+            '<div class="row"> <div class="col col-lg-1" id="blue" onclick="color_picker(this.id)">' +
+            ' </div> <div class="col col-lg-1" id="yellow" onclick="color_picker(this.id)"> </div>' +
+            ' <div class="col col-lg-1" id="red" onclick="color_picker(this.id)"> </div>' +
+            ' <div class="col col-lg-1" id="green" onclick="color_picker(this.id)"> </div> ' +
+            '</div> </div>';
+    }
+}
+
+function color_picker(color) {
+    switch (color) {
+        case "red":
+            document.getElementById('deckTable').innerText = "r_";
+            break;
+        case "blue":
+            document.getElementById('deckTable').innerText = "b_";
+            break;
+        case "yellow":
+            document.getElementById('deckTable').innerText = "y_";
+            break;
+        case "green":
+            document.getElementById('deckTable').innerText = "g_";
+            break;
+        default:
+            break;
+
+    }
+    if (color == "red") {
+        document.getElementById('deckTable').innerText = "";
+    }
 }
 
 function pass() {

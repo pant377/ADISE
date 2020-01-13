@@ -28,7 +28,14 @@ switch ($r=array_shift($request)) {
                         }
                 break;
                 case 'pass' : pass();
-                case 'draw' : add_card();
+                case 'draw' : 
+                        switch ($b=array_shift($request)) {
+                                case '':
+                                        case null: add_card();
+                                        break;
+                                case 'enemy': draw_cards_for_enemy();
+                                        break;
+                }
                 break;
                 default: header("HTTP/1.1 404 Not Found");
                 break;

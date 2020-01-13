@@ -44,6 +44,56 @@ function reset_game() {
 	show_game($row['cardCode']);
 }
 
+function draw_cards_for_enemy() {
+	global $mysqli;
+	
+	$sql = 'SELECT cardId AS ci FROM clonedeck ORDER BY RAND() LIMIT 1';
+	$sq = $mysqli -> prepare($sql);
+	$sq -> execute();
+	$req = $sq -> get_result();
+	$row = $req -> fetch_assoc();
+
+	$sql = 'SELECT playerId AS pi FROM players WHERE turn = 1';
+	$sw = $mysqli -> prepare($sql);
+	$sw -> execute();
+	$rew = $sw -> get_result();
+	$res = $rew -> fetch_assoc();
+	
+	if($res['pi'] == 2) {
+		$sql = 'INSERT INTO hand(playerId, cardId) VALUES (1, ?)';
+	} else {
+		$sql = 'INSERT INTO hand(playerId, cardId) VALUES (2, ?)';
+	}
+
+	$sx = $mysqli -> prepare($sql);
+	$sx -> bind_param('i', $row['ci']);
+	$sx -> execute();
+
+	$sql = 'SELECT cardId AS ci FROM clonedeck ORDER BY RAND() LIMIT 1';
+	$sq = $mysqli -> prepare($sql);
+	$sq -> execute();
+	$req = $sq -> get_result();
+	$row = $req -> fetch_assoc();
+
+	if($res['pi'] == 2) {
+		$sql = 'INSERT INTO hand(playerId, cardId) VALUES (1, ?)';
+	} else {
+		$sql = 'INSERT INTO hand(playerId, cardId) VALUES (2, ?)';
+	}
+
+	$sx = $mysqli -> prepare($sql);
+	$sx -> bind_param('i', $row['ci']);
+	$sx -> execute();
+
+	$sql = 'SELECT cardCode FROM cardtable WHERE number = (SELECT MAX(number) FROM cardtable)';
+	$sm = $mysqli -> prepare($sql);
+	$sm -> execute();
+	$rem = $sm -> get_result();
+	$ren = $rem -> fetch_assoc();
+
+	show_game($ren['cardCode']);
+}
+
 function add_card() {
 	global $mysqli;
 	

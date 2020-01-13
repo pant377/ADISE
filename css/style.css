@@ -206,3 +206,19 @@ h1 {
   opacity: 0.5;
   font-size: 12px;
 }
+
+#green {
+  background-color: #32CD32 !important;
+}
+
+#blue {
+  background-color: #6495ED !important;
+}
+
+#red {
+  background-color: #DC143C !important;
+}
+
+#yellow {
+  background-color: #CCCC00 !important;
+}
