@@ -21,35 +21,40 @@
 </head>
 
 <body>
-    <div class="container" id="mainContainer">
-        <div class="row">
-            <div class="col">
+    <div id="mainContainer">
+        <form class='form' id>
+            <div class='control'>
+                <h1>
+                    Sign In
+                </h1>
             </div>
-            <div class="col" style="text-align: center;">
-                <h1>UNO GAME</h1>
+            <div class='control block-cube block-input'>
+                <input name='username' placeholder='Username' id="usrnm" type='text'>
+                <div class='bg-top'>
+                    <div class='bg-inner'></div>
+                </div>
+                <div class='bg-right'>
+                    <div class='bg-inner'></div>
+                </div>
+                <div class='bg'>
+                    <div class='bg-inner'></div>
+                </div>
             </div>
-            <div class="col"></div>
-        </div>
-        <div class="row" id="game" style="text-align: center;">
-            <div class="col" id="playerOne">
-                Cards of player #1
-                <br>
-                <table class="table" id="player1hand">
-                </table>
-                <button type="button" class="btn btn-success">Play Card</button>
-                <button type="button" class="btn btn-danger">Pass</button>
-            </div>
-            <div class="col" id="deckTable">
-            </div>
-            <div class="col" id="playerTwo">
-                Cards of player #2
-                <br>
-                <table class="table" id="player2hand">
-                </table>
-                <button type="button" class="btn btn-success">Play Card</button>
-                <button type="button" class="btn btn-danger">Pass</button>
-            </div>
-        </div>
+            <button class='btn block-cube block-cube-hover' type='button'>
+                <div class='bg-top'>
+                    <div class='bg-inner'></div>
+                </div>
+                <div class='bg-right'>
+                    <div class='bg-inner'></div>
+                </div>
+                <div class='bg'>
+                    <div class='bg-inner'></div>
+                </div>
+                <div class='text' onclick="addPlayer()">
+                    Log In
+                </div>
+            </button>
+        </form>
     </div>
 </body>
 

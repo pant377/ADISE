@@ -6,16 +6,21 @@ function show_game($tt) {
 	$st = $mysqli -> prepare($sql);
 	$st -> execute();
 	$res = $st -> get_result();
+	$sql = 'SELECT turn AS tr FROM players WHERE playerid = 1';
+	$sw = $mysqli -> prepare($sql);
+	$req = $sw -> execute();
+	$req = $sw -> get_result();
+	$rew = $req -> fetch_assoc();
 	header('Content-type: application/json');
-	print json_encode(array($res->fetch_all(MYSQLI_ASSOC), $tt), JSON_PRETTY_PRINT);
+	print json_encode(array($res->fetch_all(MYSQLI_ASSOC), $tt, $rew['tr']), JSON_PRETTY_PRINT);
 }
 
 
 function reset_game() {
 	global $mysqli;
-	$sql='call beginGame()';
-	$st=$mysqli->prepare($sql);
-	$st->execute();
+	$sql = 'call beginGame()';
+	$st = $mysqli->prepare($sql);
+	$st -> execute();
 	$sql = 'SELECT cardId, cardCode FROM clonedeck ORDER BY RAND() LIMIT 1';
 	$sq = $mysqli -> prepare($sql);
 	$sq -> execute();
@@ -27,5 +32,3 @@ function reset_game() {
 	$sw -> execute();
 	show_game($row['cardCode']);
 }
-
-?>
