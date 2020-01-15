@@ -21,41 +21,35 @@
 </head>
 
 <body>
-    <!--TESTING HTML ON THIS PAGE-->
     <div class="container" id="mainContainer">
         <div class="row">
             <div class="col"> </div>
             <div class="col" style="text-align: center;">
-                <h1>
-                    <b>UNO GAME</b>
-                </h1>
+                <h1> <b>UNO GAME</b> </h1>
             </div>
             <div class="col"></div>
         </div>
         <div class="row" id="game" style="text-align: center;">
             <div class="col" id="playerOne">
-                <div id="playerOneName">
-                </div>
-                <br>
-                <table class="table" id="player1hand"> </table>
-                <div id="btns">
-                    <button type="button" class="btn btn-success" style="padding-left: 5px;">Uno</button>
+                <div id="playerOneName"> </div> <br>
+                <table class="table" id="player1hand">
+                </table>
+                <div id="btns" style="padding: 5px;">
+                    <button type="button" class="btn btn-success">Uno</button>
                     <button type="button" class="btn btn-danger" onclick="pass()" disabled>Pass</button>
                 </div>
             </div>
             <div class="col">
-                <div id="deckTable"> </div>
-                <br>
-                <div id="drawBuDiv">
-                </div>
+                <div id="deckTable"> </div> <br>
+                <div id="drawBuDiv"> </div>
             </div>
             <div class="col" id="playerTwo">
-                <div id="playerTwoName"></div>
-                <br>
+                <div id="playerTwoName"></div> <br>
                 <table class="table" id="player2hand"> </table>
             </div>
         </div>
     </div>
+    <div id="success"></div>
     <div id="colors_div"> </div>
 </body>
 

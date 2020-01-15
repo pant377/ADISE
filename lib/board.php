@@ -1,6 +1,6 @@
 <?php
 
-function show_game($ttable) {
+function show_game($ttable) { //SELECT tou hand, kai tou paixti me id 1 kai ta gurname sgia emfanisi
 	global $mysqli;
 	$sql = 'SELECT cardCode, playerId FROM hand INNER JOIN carddeck WHERE hand.cardid = carddeck.cardid';
 	$st = $mysqli -> prepare($sql);
@@ -18,8 +18,8 @@ function show_game($ttable) {
 }
 
 
-function reset_game() {
-	global $mysqli;
+function reset_game() { //reset game ara diagrafw ta panta ola apo to beginGame()
+	global $mysqli; //kai epilegw 1 xarti gia to table
 	
 	$sql = 'call beginGame()';
 	$st = $mysqli->prepare($sql);
@@ -44,7 +44,7 @@ function reset_game() {
 	show_game($row['cardCode']);
 }
 
-function draw_cards_for_enemy() {
+function draw_cards_for_enemy() { //+2X gia ton antipalo 
 	global $mysqli;
 	
 	$sql = 'SELECT cardId AS ci FROM clonedeck ORDER BY RAND() LIMIT 1';
@@ -94,7 +94,7 @@ function draw_cards_for_enemy() {
 	show_game($ren['cardCode']);
 }
 
-function add_card() {
+function add_card() { //pairnw epipleon kartes an thelw
 	global $mysqli;
 	
 	$sql = 'SELECT cardId AS ci FROM clonedeck ORDER BY RAND() LIMIT 1';

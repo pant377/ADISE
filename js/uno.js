@@ -11,7 +11,7 @@ var gameUI = '<div class="container" id="mainContainer">' +
     ' <table class="table" id="player2hand"> </table> </div> </div> </div><div id="success"></div>' +
     ' <div id="colors_div"> </div>';
 
-function resetGame() {
+function resetGame() { //diagrafi twn vasewn pou den xreiazontai, kai moirasma filwn stous paixtes
     document.getElementById('success').innerHTML = '*New Game Started*<br>Try Logging In'
     $.ajax({
         type: 'POST',
@@ -20,7 +20,7 @@ function resetGame() {
     });
 }
 
-function drawCard() {
+function drawCard() { //kalei tin add_card, pou dinei ston paixth kartes
     $.ajax({
         type: 'POST',
         url: "uno.php/game/draw",
@@ -28,20 +28,22 @@ function drawCard() {
     });
 }
 
-function generateGame() {
+function generateGame() { //ftiaxnei to ui, kai kanei update info
     document.getElementById('mainContainer').innerHTML = gameUI;
     updateInfo();
 }
 
-function empty_game() {
+/*function empty_game() {
     document.getElementById('player1hand').innerHTML = "";
     document.getElementById('player2hand').innerHTML = "";
-}
+}*/
 
 function throwCard(value) {
     var deck = document.getElementById('deckTable').innerText;
     console.log(deck[deck.length - 1]);
     if (value.innerText.length == 2) {
+        //elegxos gia to an einai idio to gramma g = g, y = y
+        //i an einai idios o arithmos, 5 = 1
         if (value.innerText[0] == deck[0] || value.innerText[1] == deck[1] ||
             value.innerText[0] == deck[deck.length - 1].toLowerCase()) {
             $.ajax({
@@ -56,7 +58,8 @@ function throwCard(value) {
             });
         }
     } else if (value.innerText.length == 3) {
-        if (value.innerText[2] == deck[0] || 
+        //to idio me panw stous elegxoys panw katw
+        if (value.innerText[2] == deck[0] ||
             value.innerText[2] == deck[deck.length - 1].toLowerCase()) {
             $.ajax({
                 type: 'POST',
@@ -75,6 +78,7 @@ function throwCard(value) {
             });
         }
     } else if (value.innerText.length == 4) {
+        //analoga me to an einai skip i to rev kanw analoga pragmata
         if (value.innerText[3].toLowerCase() == deck[0] ||
             value.innerText[3].toLowerCase() == deck[deck.length - 1].toLowerCase()) {
             if (value.innerText[0] == "s") {
@@ -121,7 +125,8 @@ function throwCard(value) {
     }
 }
 
-function color_picker(color) {
+function color_picker(color) { //epilogi xrwmatos an patithei to koumpi allazei to xrwma
+    //kai stelnetai stin vasi gia na mpei sto table
     var color;
     switch (color) {
         case "red":
@@ -152,7 +157,7 @@ function color_picker(color) {
     document.getElementById('colors_div').innerHTML = "";
 }
 
-function pass() {
+function pass() { //den stelnw tipota, ara den diagrafetai tipota
     if (player.turn == 1)
         $.ajax({
             url: "uno.php/game/play/",

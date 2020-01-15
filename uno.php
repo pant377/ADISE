@@ -109,13 +109,15 @@ function add_player($input) {
 	print json_encode($req->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
 }
 
-function change_color($input) {
+function change_color($input) { //allagi xrwmatos kai prosthiki tou chcol sto table
         global $mysqli;
 
         $sql = 'call playerTurn()';
         $st = $mysqli->prepare($sql);
 	$st -> execute();
 
+
+
         $sql = 'INSERT INTO cardTable(cardCode) VALUES(?)';
 	$sw = $mysqli -> prepare($sql);
         $sw -> bind_param('s', $input['x']);
@@ -130,7 +132,7 @@ function change_color($input) {
 	show_game($ren['cardCode']);
 }
 
-function handle_move_skip($input) {
+function handle_move_skip($input) { //petaw tin karta, kai den allazei i seira
         global $mysqli;
         $sql = 'call playerTurn()';
         $st = $mysqli->prepare($sql);
@@ -159,10 +161,10 @@ function handle_move_skip($input) {
 	show_game($ren['cardCode']);
 }
 
-function handle_move_ch($input) {
+function handle_move_ch($input) { //prosthiki tou pleon epilegmenou xrwmatos sto table
         global $mysqli;
         
-        $sql = 'DELETE FROM hand WHERE cardId IN (SELECT h2.cardId FROM hand h2 INNER JOIN carddeck c2 ON c2.cardId = h2.cardId INNER JOIN players p on h2.playerId = p.playerId WHERE c2.cardCode = ? AND p.turn = 0) LIMIT 1';
+        $sql = 'DELETE FROM hand WHERE cardId IN (SELECT h2.cardId FROM hand h2 INNER JOIN carddeck c2 ON c2.cardId = h2.cardId INNER JOIN players p on h2.playerId = p.playerId WHERE c2.cardCode = ? AND p.turn = 1) LIMIT 1';
 	$sw = $mysqli -> prepare($sql);
         $sw -> bind_param('s', $input['x']);
         $sw -> execute();
