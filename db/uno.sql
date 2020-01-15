@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 15, 2020 at 12:34 PM
+-- Generation Time: Jan 15, 2020 at 05:28 PM
 -- Server version: 10.4.10-MariaDB
 -- PHP Version: 7.1.33
 
@@ -209,7 +209,9 @@ CREATE TABLE `cardtable` (
 --
 
 INSERT INTO `cardtable` (`number`, `cardCode`) VALUES
-(1, 'g2');
+(1, 'skiR'),
+(2, 'chCol'),
+(3, 'b_');
 
 -- --------------------------------------------------------
 
@@ -233,7 +235,6 @@ INSERT INTO `clonedeck` (`cardId`, `cardCode`) VALUES
 (3, 'r1'),
 (4, 'r2'),
 (5, 'r2'),
-(6, 'r3'),
 (7, 'r3'),
 (8, 'r4'),
 (9, 'r4'),
@@ -244,50 +245,53 @@ INSERT INTO `clonedeck` (`cardId`, `cardCode`) VALUES
 (15, 'r7'),
 (16, 'r8'),
 (17, 'r8'),
+(18, 'r9'),
 (19, 'r9'),
 (20, 'y0'),
+(21, 'y1'),
 (22, 'y1'),
 (23, 'y2'),
 (24, 'y2'),
-(25, 'y3'),
+(26, 'y3'),
 (27, 'y4'),
 (28, 'y4'),
 (29, 'y5'),
-(30, 'y5'),
 (31, 'y6'),
 (32, 'y6'),
 (33, 'y7'),
 (34, 'y7'),
 (35, 'y8'),
 (36, 'y8'),
-(37, 'y9'),
+(38, 'y9'),
+(39, 'b0'),
 (40, 'b1'),
 (41, 'b1'),
 (42, 'b2'),
 (43, 'b2'),
 (45, 'b3'),
 (46, 'b4'),
-(47, 'b4'),
 (48, 'b5'),
-(50, 'b6'),
+(49, 'b5'),
 (51, 'b6'),
 (52, 'b7'),
 (53, 'b7'),
 (54, 'b8'),
 (55, 'b8'),
 (56, 'b9'),
-(57, 'b9'),
 (58, 'g0'),
 (59, 'g1'),
-(60, 'g1'),
+(61, 'g2'),
+(62, 'g2'),
 (63, 'g3'),
-(64, 'g3'),
 (65, 'g4'),
 (66, 'g4'),
+(67, 'g5'),
+(68, 'g5'),
 (69, 'g6'),
 (70, 'g6'),
 (71, 'g7'),
 (72, 'g7'),
+(73, 'g8'),
 (74, 'g8'),
 (75, 'g9'),
 (76, 'g9'),
@@ -298,9 +302,7 @@ INSERT INTO `clonedeck` (`cardId`, `cardCode`) VALUES
 (81, '+2b'),
 (82, '+2b'),
 (83, '+2g'),
-(84, '+2g'),
 (85, 'revR'),
-(86, 'revR'),
 (87, 'revY'),
 (88, 'revY'),
 (89, 'revB'),
@@ -308,16 +310,16 @@ INSERT INTO `clonedeck` (`cardId`, `cardCode`) VALUES
 (91, 'revG'),
 (92, 'revG'),
 (93, 'skiR'),
-(94, 'skiR'),
 (95, 'skiY'),
 (96, 'skiY'),
+(97, 'skiB'),
 (98, 'skiB'),
 (99, 'skiG'),
+(100, 'skiG'),
 (101, 'chCol'),
 (102, 'chCol'),
 (103, 'chCol'),
 (104, 'chCol'),
-(105, 'chCol'),
 (106, 'chCol'),
 (107, 'chCol'),
 (108, 'chCol');
@@ -339,20 +341,19 @@ CREATE TABLE `hand` (
 --
 
 INSERT INTO `hand` (`playerId`, `cardId`) VALUES
-(1, 11),
-(2, 44),
-(1, 97),
-(2, 21),
-(1, 18),
-(2, 68),
-(1, 26),
-(2, 73),
-(1, 100),
-(2, 61),
-(1, 49),
-(2, 67),
-(1, 38),
-(2, 39);
+(2, 57),
+(1, 86),
+(2, 30),
+(1, 44),
+(2, 60),
+(1, 37),
+(2, 11),
+(1, 6),
+(2, 64),
+(1, 84),
+(2, 47),
+(1, 25),
+(2, 50);
 
 -- --------------------------------------------------------
 
@@ -366,6 +367,14 @@ CREATE TABLE `players` (
   `username` varchar(30) COLLATE utf8_bin NOT NULL,
   `turn` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `players`
+--
+
+INSERT INTO `players` (`playerId`, `username`, `turn`) VALUES
+(1, 'mike', 0),
+(2, 'fasolakis', 1);
 
 --
 -- Indexes for dumped tables
@@ -391,7 +400,7 @@ ALTER TABLE `cardtable`
 -- AUTO_INCREMENT for table `cardtable`
 --
 ALTER TABLE `cardtable`
-  MODIFY `number` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `number` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
